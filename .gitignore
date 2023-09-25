@@ -72,3 +72,5 @@ Client/**/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Client/**/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 Client/**/.vsconfig
+
+.vs/**
