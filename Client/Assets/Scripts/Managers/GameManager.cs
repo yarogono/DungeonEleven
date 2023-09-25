@@ -5,9 +5,6 @@ public class GameManager : MonoBehaviour
     static GameManager s_instance;
     static GameManager Instance { get { Init(); return s_instance; } }
 
-    #region Managers
-
-    #endregion
 
     void Start()
     {
@@ -18,16 +15,14 @@ public class GameManager : MonoBehaviour
     {
         if (s_instance == null)
         {
-            GameObject gameObject = GameObject.Find("@GameManager");
-            if (gameObject == null)
+            s_instance = (GameManager)FindObjectOfType(typeof(GameManager));
+
+            if (s_instance == null)
             {
-                gameObject = new GameObject { name = "@GameManager" };
-                gameObject.AddComponent<GameManager>();
+                GameObject gameObject = new GameObject { name = "@GameManager" };
+                s_instance = gameObject.AddComponent<GameManager>();
+                DontDestroyOnLoad(gameObject);
             }
-
-            DontDestroyOnLoad(gameObject);
-            s_instance = gameObject.GetComponent<GameManager>();
-
         }
     }
 
