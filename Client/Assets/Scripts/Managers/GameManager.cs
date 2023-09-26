@@ -28,6 +28,6 @@ public class GameManager : MonoBehaviour
 
     public static void Clear()
     {
-
+        MapManager.Instance.LoadNextMap();
     }
 }
