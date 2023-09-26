@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    static GameManager s_instance;
-    static GameManager Instance { get { Init(); return s_instance; } }
+    private static GameManager _instance;
+    public static GameManager Instance { get { Init(); return _instance; } }
 
 
     void Start()
@@ -13,21 +13,16 @@ public class GameManager : MonoBehaviour
 
     static void Init()
     {
-        if (s_instance == null)
+        if (_instance == null)
         {
-            s_instance = (GameManager)FindObjectOfType(typeof(GameManager));
+            _instance = (GameManager)FindObjectOfType(typeof(GameManager));
 
-            if (s_instance == null)
+            if (_instance == null)
             {
                 GameObject gameObject = new GameObject { name = "@GameManager" };
-                s_instance = gameObject.AddComponent<GameManager>();
+                _instance = gameObject.AddComponent<GameManager>();
                 DontDestroyOnLoad(gameObject);
             }
         }
-    }
-
-    public static void Clear()
-    {
-        MapManager.Instance.LoadNextMap();
     }
 }
