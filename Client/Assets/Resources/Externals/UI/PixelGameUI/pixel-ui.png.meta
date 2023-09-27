@@ -140,7 +140,7 @@ TextureImporter:
         height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -152,13 +152,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_2
+      name: HPBar
       rect:
         serializedVersion: 2
-        x: 45
+        x: 50
         y: 405
-        width: 60
-        height: 11
+        width: 44
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,13 +173,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_3
+      name: HPBarHandle
       rect:
         serializedVersion: 2
-        x: 119
-        y: 404
-        width: 21
-        height: 8
+        x: 120
+        y: 405
+        width: 1
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,7 +425,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_15
+      name: MPBar
       rect:
         serializedVersion: 2
         x: 50
@@ -446,13 +446,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_16
+      name: MPBarHandle
       rect:
         serializedVersion: 2
-        x: 96
-        y: 352
-        width: 32
-        height: 43
+        x: 121
+        y: 389
+        width: 1
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -614,13 +614,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_24
+      name: BarBackground
       rect:
         serializedVersion: 2
-        x: 44
-        y: 369
-        width: 50
-        height: 10
+        x: 50
+        y: 373
+        width: 44
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -677,7 +677,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pixel-ui_27
+      name: BarBorder
       rect:
         serializedVersion: 2
         x: 49
@@ -1969,6 +1969,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Back: 469942004
+      BarBackground: 1622503978
+      BarBorder: 141203968
       Border: -1897900366
       HP1: 634541140
       HP2: -1796582953
@@ -1976,12 +1978,16 @@ TextureImporter:
       HP4: 571929028
       HP5: -476587869
       HP6: -462584655
+      HPBar: 1797516140
+      HPBarHandle: 1612871618
       MP1: 808915949
       MP2: 1491471773
       MP3: 609194579
       MP4: -1012722140
       MP5: 686931853
       MP6: -1089356512
+      MPBar: 590632466
+      MPBarHandle: 128550844
       Panel1: 844720906
       Panel2: 1976006042
       Slot: -705723588
@@ -1993,23 +1999,17 @@ TextureImporter:
       pixel-ui_12: 1594837789
       pixel-ui_13: 43363787
       pixel-ui_14: 1910522602
-      pixel-ui_15: 590632466
-      pixel-ui_16: 128550844
       pixel-ui_17: 677237510
       pixel-ui_18: -46041903
       pixel-ui_19: -913661566
-      pixel-ui_2: 1797516140
       pixel-ui_20: -418697528
       pixel-ui_21: 105355393
       pixel-ui_22: -1876493998
       pixel-ui_23: 45507729
-      pixel-ui_24: 1622503978
       pixel-ui_25: -1754352597
       pixel-ui_26: 1402831355
-      pixel-ui_27: 141203968
       pixel-ui_28: 574698310
       pixel-ui_29: 1437396229
-      pixel-ui_3: 1612871618
       pixel-ui_30: -401196721
       pixel-ui_31: -1756883721
       pixel-ui_33: -1119621459
