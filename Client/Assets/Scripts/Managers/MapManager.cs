@@ -9,7 +9,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] _maps;
     [SerializeField] private GameObject _startMap;
     [SerializeField] private GameObject _mapTransitionImage;
+    private GameObject _currentMap;
     private MapTransition _mapTransition;
+    private int _mapIndex = 0;
 
     private void Awake()
     {
@@ -20,16 +22,19 @@ public class MapManager : MonoBehaviour
         _startMap.SetActive(true);
         _player.transform.localPosition = Vector3.zero;
         _mapTransition = _mapTransitionImage.GetComponent<MapTransition>();
+        _currentMap = _startMap;
 
     }
 
-    public void LoadNextMap()
+    public void LoadNextMap() //TODO : ·£´ýÀ¸·Î ¸Ê »ý¼º
     {
-        _startMap.SetActive(false);
+        _currentMap.SetActive(false);
         _mapTransition.LoadingMap();
-        _maps[0].SetActive(true);
+        _maps[_mapIndex].SetActive(true);
         _mapTransition.LoadedMap();
+        _currentMap = _maps[_mapIndex];
         _player.transform.localPosition = Vector3.zero;
+        _mapIndex++;
 
     }
 }
