@@ -70,6 +70,11 @@ public class MapManager : MonoBehaviour
         _playerController.portalType = type;
     }
 
+    public void PortalAway()
+    {
+        _playerController.isNearPortal = false;
+    }
+
     public void MovedNextMap()
     {
         _playerController.isNearPortal = false;

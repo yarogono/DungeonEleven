@@ -23,4 +23,10 @@ public class Portal : MonoBehaviour
             MapManager.Instance.ReadyNextMap(type);
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("포탈이 멀어졌다");
+        MapManager.Instance.PortalAway();
+    }
 }
