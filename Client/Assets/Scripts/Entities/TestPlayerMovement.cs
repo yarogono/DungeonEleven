@@ -10,7 +10,7 @@ public class TestPlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     private Rigidbody2D _rigidbody;
 
-    //아래 두 줄 플레이어 구현하실 때 참고해주시면 됩니다.
+    //아래 세 줄 플레이어 구현하실 때 참고해주시면 됩니다.
     [SerializeField] private GameObject _footCollider;
     public bool isNearPortal = false;
     public PortalType portalType;
@@ -20,7 +20,7 @@ public class TestPlayerMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
-    // Update is called once per frame
+
     void Update()
     {
         _horizontalMovement = Input.GetAxis("Horizontal");
@@ -28,14 +28,16 @@ public class TestPlayerMovement : MonoBehaviour
         transform.Translate(new Vector3(_horizontalMovement,0 , 0 ) * Time.deltaTime * moveSpeed);
 
         bool isJump = Input.GetKeyDown(KeyCode.Space);
-        bool isPortal = Input.GetKeyDown(KeyCode.W);
         if ( isJump )
         {
             _rigidbody.AddForce(new Vector3(0, 1, 0) * jumpForce, ForceMode2D.Impulse);
             _footCollider.SetActive(false);
             Invoke("ActivateFoot", 0.5f);
         }
-        if(isPortal&&isNearPortal)
+
+        //플레이어가 포탈을 타고 이동하기 위한 코드입니다.
+        bool isPortal = Input.GetKeyDown(KeyCode.W);
+        if (isPortal&&isNearPortal)
         {
             MapManager.Instance.LoadNextMap(portalType);
         }

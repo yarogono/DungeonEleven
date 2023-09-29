@@ -15,6 +15,8 @@ public class Portal : MonoBehaviour
     [SerializeField] PortalType type;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(MapManager.Instance.isFinalMain&&type== PortalType.MAIN)
+            type = PortalType.BOSS;
         if (collision.CompareTag("Player"))
         {
             //다음 맵으로 이동 가능하다는 UI 표시하면 좋을 것 같습니다

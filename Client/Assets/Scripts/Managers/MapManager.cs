@@ -11,11 +11,13 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] _maps;
     [SerializeField] private GameObject[] _sideMaps;
     [SerializeField] private GameObject _startMap;
+    [SerializeField] private GameObject _bossMap;
     [SerializeField] private GameObject _mapTransitionImage;
     private TestPlayerMovement _playerController;
     private GameObject _currentMap = null;
     private MapTransition _mapTransition;
     private int _mapIndex = 0;
+    public bool isFinalMain = false;
     private Vector3 _previousPosition = Vector3.zero;
 
     private void Awake()
@@ -30,10 +32,11 @@ public class MapManager : MonoBehaviour
         _mapTransition = _mapTransitionImage.GetComponent<MapTransition>();
         _currentMap = _startMap;
         _maps = _maps.OrderBy(x => UnityEngine.Random.Range(-6, 6)).ToArray();
+        _sideMaps = _sideMaps.OrderBy(x => UnityEngine.Random.Range(-6, 6)).ToArray();
 
     }
 
-    public void LoadNextMap(PortalType type) //TODO : ·£´ýÀ¸·Î ¸Ê »ý¼º
+    public void LoadNextMap(PortalType type) 
     {
         switch(type)
         {
@@ -46,6 +49,8 @@ public class MapManager : MonoBehaviour
                 _previousPosition = _player.transform.localPosition;
                 _player.transform.localPosition = Vector3.zero;
                 _mapIndex++;
+                if(_mapIndex == _maps.Length)
+                    isFinalMain = true;
                 break;
             case PortalType.PREVIOUS:
                 if((_mapIndex -2)<0)
@@ -65,12 +70,23 @@ public class MapManager : MonoBehaviour
             case PortalType.SIDE:
                 _currentMap?.SetActive(false);
                 _mapTransition.LoadingMap();
-                _sideMaps[_mapIndex].SetActive(true);
+                if(_mapIndex == _maps.Length)
+                    _sideMaps[_mapIndex-1].SetActive(true);
+                else _sideMaps[_mapIndex].SetActive(true);
                 _mapTransition.LoadedMap();
                 _currentMap = _sideMaps[_mapIndex];
                 _previousPosition = _player.transform.localPosition;
                 _player.transform.localPosition = Vector3.zero;
                 _mapIndex++;
+                break;
+            case PortalType.BOSS:
+                _currentMap?.SetActive(false);
+                _mapTransition.LoadingMap();
+                _bossMap.SetActive(true);
+                _mapTransition.LoadedMap();
+                _currentMap = _bossMap;
+                _previousPosition = _player.transform.localPosition;
+                _player.transform.localPosition = Vector3.zero;
                 break;
         }
     }
