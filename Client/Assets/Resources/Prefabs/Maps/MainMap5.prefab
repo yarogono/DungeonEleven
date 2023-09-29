@@ -1352,7 +1352,7 @@ Transform:
   - {fileID: 5274083583017906718}
   - {fileID: 7100472834758863008}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &6191118576590553288
 Grid:
@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf85bdf23f95fee4caf459a302eb43d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 2
 --- !u!1 &7378427465949674796
 GameObject:
   m_ObjectHideFlags: 0

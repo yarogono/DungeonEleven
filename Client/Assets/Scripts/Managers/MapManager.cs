@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance;
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject[] _maps;
+    [SerializeField] private GameObject[] _sideMaps;
     [SerializeField] private GameObject _startMap;
     [SerializeField] private GameObject _mapTransitionImage;
     private TestPlayerMovement _playerController;
@@ -60,6 +61,16 @@ public class MapManager : MonoBehaviour
                 _mapTransition.LoadedMap();
                 _currentMap = _maps[_mapIndex-2];
                 _mapIndex--;
+                break;
+            case PortalType.SIDE:
+                _currentMap?.SetActive(false);
+                _mapTransition.LoadingMap();
+                _sideMaps[_mapIndex].SetActive(true);
+                _mapTransition.LoadedMap();
+                _currentMap = _sideMaps[_mapIndex];
+                _previousPosition = _player.transform.localPosition;
+                _player.transform.localPosition = Vector3.zero;
+                _mapIndex++;
                 break;
         }
     }
