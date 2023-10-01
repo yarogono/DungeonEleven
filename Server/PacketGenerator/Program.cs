@@ -32,7 +32,6 @@ namespace PacketGenerator
                 {
                     if (r.Depth == 1 && r.NodeType == XmlNodeType.Element)
                         ParsePacket(r);
-                    //Console.WriteLine(r.Name + " " + r["name"]);
                 }
 
                 string fileText = string.Format(PacketFormat.fileFormat, packetEnums, genPackets);

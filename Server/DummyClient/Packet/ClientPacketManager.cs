@@ -1,6 +1,8 @@
 using ServerCore;
+using System;
+using System.Collections.Generic;
 
-public class PacketManager
+class PacketManager
 {
 	#region Singleton
 	static PacketManager _instance = new PacketManager();
@@ -17,14 +19,8 @@ public class PacketManager
 		
 	public void Register()
 	{
-		_makeFunc.Add((ushort)PacketID.S_BroadcastEnterGame, MakePacket<S_BroadcastEnterGame>);
-		_handler.Add((ushort)PacketID.S_BroadcastEnterGame, PacketHandler.S_BroadcastEnterGameHandler);
-		_makeFunc.Add((ushort)PacketID.S_BroadcastLeaveGame, MakePacket<S_BroadcastLeaveGame>);
-		_handler.Add((ushort)PacketID.S_BroadcastLeaveGame, PacketHandler.S_BroadcastLeaveGameHandler);
-		_makeFunc.Add((ushort)PacketID.S_PlayerList, MakePacket<S_PlayerList>);
-		_handler.Add((ushort)PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
-		_makeFunc.Add((ushort)PacketID.S_BroadcastMove, MakePacket<S_BroadcastMove>);
-		_handler.Add((ushort)PacketID.S_BroadcastMove, PacketHandler.S_BroadcastMoveHandler);
+		_makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
+		_handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
 
 	}
 
@@ -41,10 +37,8 @@ public class PacketManager
 		if (_makeFunc.TryGetValue(id, out func))
 		{
 			IPacket packet = func.Invoke(session, buffer);
-			if (onRecvCallback != null)
-				onRecvCallback.Invoke(session, packet);
-			else
-				HandlePacket(session, packet);
+
+			HandlePacket(session, packet);
 		}
 	}
 
@@ -57,8 +51,8 @@ public class PacketManager
 
 	public void HandlePacket(PacketSession session, IPacket packet)
 	{
-		Action<PacketSession, IPacket> action = null;
-		if (_handler.TryGetValue(packet.Protocol, out action))
-			action.Invoke(session, packet);
-	}
+        Action<PacketSession, IPacket> action = null;
+        if (_handler.TryGetValue(packet.Protocol, out action))
+            action.Invoke(session, packet);
+    }
 }

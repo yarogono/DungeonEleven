@@ -20,7 +20,7 @@ namespace DummyClient
             {
                 try
                 {
-
+                    SessionManager.Instance.SendForEach();
                 }
                 catch
                 (Exception ex)

@@ -1,14 +1,18 @@
-﻿namespace PacketGenerator
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace PacketGenerator
 {
-    class PacketFormat
-    {
+	class PacketFormat
+	{
         // {0} 패킷 등록
         public static string managerFormat =
 @"using ServerCore;
 using System;
 using System.Collections.Generic;
 
-public class PacketManager
+class PacketManager
 {{
 	#region Singleton
 	static PacketManager _instance = new PacketManager();
@@ -41,10 +45,8 @@ public class PacketManager
 		if (_makeFunc.TryGetValue(id, out func))
 		{{
 			IPacket packet = func.Invoke(session, buffer);
-			if (onRecvCallback != null)
-				onRecvCallback.Invoke(session, packet);
-			else
-				HandlePacket(session, packet);
+
+			HandlePacket(session, packet);
 		}}
 	}}
 
@@ -57,10 +59,10 @@ public class PacketManager
 
 	public void HandlePacket(PacketSession session, IPacket packet)
 	{{
-		Action<PacketSession, IPacket> action = null;
-		if (_handler.TryGetValue(packet.Protocol, out action))
-			action.Invoke(session, packet);
-	}}
+        Action<PacketSession, IPacket> action = null;
+        if (_handler.TryGetValue(packet.Protocol, out action))
+            action.Invoke(session, packet);
+    }}
 }}";
 
         // {0} 패킷 이름
@@ -104,7 +106,7 @@ public interface IPacket
         // {3} 멤버 변수 Write
         public static string packetFormat =
 @"
-public class {0} : IPacket
+class {0} : IPacket
 {{
 	{1}
 
