@@ -1,32 +1,10 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Managers
 {
-    public class ResourceManager : MonoBehaviour
+    public class ResourceManager : CustomSingleton<ResourceManager>
     {
-        private static ResourceManager _instance;
-        public static ResourceManager GetInstance { get { Init(); return _instance; } }
-
-        void Start()
-        {
-            Init();
-        }
-
-        static void Init()
-        {
-            if (_instance == null)
-            {
-                _instance = (ResourceManager)FindObjectOfType(typeof(ResourceManager));
-
-                if (_instance == null)
-                {
-                    ResourceManager gameObject = new ResourceManager { name = "@ResourceManager" };
-                    _instance = gameObject.AddComponent<ResourceManager>();
-                    DontDestroyOnLoad(gameObject);
-                }
-            }
-        }
+        protected ResourceManager() { }
 
         public T Load<T>(string path) where T : Object
         {

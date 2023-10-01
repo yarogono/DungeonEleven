@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManager : CustomSingleton<NetworkManager>
 {
     ServerSession _session = new ServerSession();
 
