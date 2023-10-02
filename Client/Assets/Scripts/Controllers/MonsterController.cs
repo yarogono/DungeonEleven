@@ -19,6 +19,7 @@ public class MonsterController : MonoBehaviour
     public event Action<Collider2D> PlayerDetectEvent;
     public Vector3 playerPosition = Vector3.zero;
     public bool isDead = false;
+    public bool isAttack = false;
     [SerializeField] private Animator _animator;
     [SerializeField][Range(0.5f, 2.0f)] private float MoveSpeed;
     [SerializeField][Range(1, 4)] private float MoveRange;
@@ -30,7 +31,6 @@ public class MonsterController : MonoBehaviour
     private int _behaviourSelector = 0;
     protected BehaviourType behaviourType;
     private bool playerDetected = false;
-    private bool isRight = false;
     private int positionIndicator = 0;
 
     private void Awake()
@@ -58,6 +58,7 @@ public class MonsterController : MonoBehaviour
         {
             _animator.SetBool(_isMove, false);
             _animator.SetBool(_isAttack, false);
+            isAttack = false;
             float moveRate = 1.0f / MoveSpeed;
             _behaviourSelector = UnityEngine.Random.Range(0, 10);
             /*
@@ -108,6 +109,7 @@ public class MonsterController : MonoBehaviour
                     break;
                 case BehaviourType.ATTACK:
                     _animator.SetBool(_isAttack, true);
+                    isAttack = true;
                     MoveTowardsPlayer(moveRate);
                     break;
             }
