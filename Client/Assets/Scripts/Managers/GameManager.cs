@@ -1,10 +1,10 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : CustomSingleton<GameManager>
 {
     [SerializeField] 
-    private Text _dungeonTimeText;
+    public TMP_Text _dungeonTimeText;
 
     private float _dungeonTime;
     private bool _isTimerOn = false;
@@ -22,7 +22,7 @@ public class GameManager : CustomSingleton<GameManager>
         int minute = (int)_dungeonTime / 60;
         int second = (int)_dungeonTime % 60;
 
-        _dungeonTimeText.text = $"{minute.ToString("00")} : {second.ToString("00")}";
+        _dungeonTimeText.text = $"{minute.ToString("00")}:{second.ToString("00")}";
     }
 
     public void StartDungeonTimer()
@@ -49,6 +49,6 @@ public class GameManager : CustomSingleton<GameManager>
     {
         int minute = (int)_dungeonTime / 60;
         int second = (int)_dungeonTime % 60;
-        return $"{minute.ToString("00")} : {second.ToString("00")}";
+        return $"{minute.ToString("00")}:{second.ToString("00")}";
     }
 }
