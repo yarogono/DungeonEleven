@@ -30,13 +30,13 @@ public class SoundManager : CustomSingleton<SoundManager>
         _audioClips.Clear();
     }
 
-    public void Play(string path, Define.Sound type = Define.Sound.Bgm, float pitch = 1.0f)
+    public void Play(string path, Define.Sound type = Define.Sound.Bgm, float pitch = 1.0f, float volume = 0.5f)
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
-        Play(audioClip, type, pitch);
+        Play(audioClip, type, pitch, volume);
     }
 
-    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Bgm, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Bgm, float pitch = 1.0f, float volume = 0.5f)
     {
         if (audioClip == null)
             return;
@@ -48,6 +48,7 @@ public class SoundManager : CustomSingleton<SoundManager>
                 audioSource.Stop();
 
             audioSource.pitch = pitch;
+            audioSource.volume = volume;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
@@ -55,6 +56,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         {
             AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
             audioSource.pitch = pitch;
+            audioSource.volume = volume;
             audioSource.PlayOneShot(audioClip);
         }
     }
