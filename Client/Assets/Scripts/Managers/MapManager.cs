@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Define;
 
 public class MapManager : MonoBehaviour
 {
@@ -38,60 +39,74 @@ public class MapManager : MonoBehaviour
 
     public void LoadNextMap(PortalType type) 
     {
-        switch(type)
+        try
         {
-            case PortalType.MAIN:
-                _currentMap?.SetActive(false);
-                _mapTransition.LoadingMap();
-                _maps[_mapIndex].SetActive(true);
-                _mapTransition.LoadedMap();
-                _currentMap = _maps[_mapIndex];
-                _previousPosition = _player.transform.localPosition;
-                _player.transform.localPosition = Vector3.zero;
-                _mapIndex++;
-                if(_mapIndex == _maps.Length)
-                    isFinalMain = true;
-                break;
-            case PortalType.PREVIOUS:
-                if((_mapIndex -2)<0)
-                {
-                    //던전 클리어 혹은 탈출장치 발견 전까지 나갈 수 없다는 팝업 표시하면 좋을 것 같습니다.
-                    Debug.Log("들어올 땐 마음대로지만 나갈 땐 아니란다...");
+            switch (type)
+            {
+                case PortalType.MAIN:
+                    _currentMap?.SetActive(false);
+                    _mapTransition.LoadingMap();
+                    _maps[_mapIndex].SetActive(true);
+                    _mapTransition.LoadedMap();
+                    _currentMap = _maps[_mapIndex];
+                    _previousPosition = _player.transform.localPosition;
+                    _player.transform.localPosition = Vector3.zero;
+                    _mapIndex++;
+                    if (_mapIndex == _maps.Length)
+                        isFinalMain = true;
                     break;
-                }
-                _currentMap?.SetActive(false);
-                _mapTransition.LoadingMap();
-                _maps[_mapIndex-2].SetActive(true);
-                _player.transform.localPosition = _previousPosition;
-                _mapTransition.LoadedMap();
-                _currentMap = _maps[_mapIndex-2];
-                _mapIndex--;
-                break;
-            case PortalType.SIDE:
-                _currentMap?.SetActive(false);
-                _mapTransition.LoadingMap();
-                if(_mapIndex == _maps.Length)
-                    _sideMaps[_mapIndex-1].SetActive(true);
-                else _sideMaps[_mapIndex].SetActive(true);
-                _mapTransition.LoadedMap();
-                _currentMap = _sideMaps[_mapIndex];
-                _previousPosition = _player.transform.localPosition;
-                _player.transform.localPosition = Vector3.zero;
-                _mapIndex++;
-                break;
-            case PortalType.BOSS:
-                _currentMap?.SetActive(false);
-                _mapTransition.LoadingMap();
-                _bossMap.SetActive(true);
-                _mapTransition.LoadedMap();
-                _currentMap = _bossMap;
-                _previousPosition = _player.transform.localPosition;
-                _player.transform.localPosition = Vector3.zero;
-                break;
+                case PortalType.PREVIOUS:
+                    if ((_mapIndex - 2) < 0)
+                    {
+                        //던전 클리어 혹은 탈출장치 발견 전까지 나갈 수 없다는 팝업 표시하면 좋을 것 같습니다.
+                        Debug.Log("들어올 땐 마음대로지만 나갈 땐 아니란다...");
+                        break;
+                    }
+                    _currentMap?.SetActive(false);
+                    _mapTransition.LoadingMap();
+                    _maps[_mapIndex - 2].SetActive(true);
+                    _player.transform.localPosition = _previousPosition;
+                    _mapTransition.LoadedMap();
+                    _currentMap = _maps[_mapIndex - 2];
+                    _mapIndex--;
+                    break;
+                case PortalType.SIDE:
+                    _currentMap?.SetActive(false);
+                    _mapTransition.LoadingMap();
+                    if (_mapIndex == _maps.Length)
+                        _sideMaps[_mapIndex - 1].SetActive(true);
+                    else _sideMaps[_mapIndex].SetActive(true);
+                    _mapTransition.LoadedMap();
+                    _currentMap = _sideMaps[_mapIndex];
+                    _previousPosition = _player.transform.localPosition;
+                    _player.transform.localPosition = Vector3.zero;
+                    _mapIndex++;
+                    break;
+                case PortalType.BOSS:
+                    _currentMap?.SetActive(false);
+                    _mapTransition.LoadingMap();
+                    _bossMap.SetActive(true);
+                    _mapTransition.LoadedMap();
+                    _currentMap = _bossMap;
+                    _previousPosition = _player.transform.localPosition;
+                    _player.transform.localPosition = Vector3.zero;
+                    break;
+            }
         }
+        catch (Exception ex)
+        {
+            _currentMap?.SetActive(false);
+            _mapTransition.LoadingMap();
+            _bossMap.SetActive(true);
+            _mapTransition.LoadedMap();
+            _currentMap = _bossMap;
+            _previousPosition = _player.transform.localPosition;
+            _player.transform.localPosition = Vector3.zero;
+        }
+       
     }
 
-    public void ReadyNextMap(PortalType type)
+    public void ReadyNextMap(Define.PortalType type)
     {
         _playerController.isNearPortal = true;
         _playerController.portalType = type;

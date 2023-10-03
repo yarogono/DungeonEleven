@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
-public enum PortalType
-{
-    MAIN,
-    PREVIOUS,
-    SIDE,
-    BOSS
-}
+
 
 public class Portal : MonoBehaviour
 {
