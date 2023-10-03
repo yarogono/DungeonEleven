@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public event Action<Vector2> OnMoveEvent;
     public event Action<Vector2> OnLookEvent;
     public event Action OnJumpEvent;
+    public event Action OnHitEvent;
     public event Action OnFallEvent;
     public event Action<Vector2> OnDashEvent;
     public event Action<AttackSO> OnAttackEvent;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         jumpingSet = gameObject.GetComponent<PlayerStatsHandler>().CurrentStates.jumpingPower;
-        Debug.Log("jumpingSet : " + jumpingSet);
+        //Debug.Log("jumpingSet : " + jumpingSet);
     }
 
 
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
         {
             _timeSinceLastAttack = 0;
             CallAttackEvent(Stats.CurrentStates.attackSO);
+            IsAttacking = false;
         }
     }
 
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
     public void CallMoveEvent(Vector2 direction)
     {
-        Debug.Log("이벤트 확인 CallMoveEvent");
+       // Debug.Log("이벤트 확인 CallMoveEvent");
         OnMoveEvent?.Invoke(direction);
     }
     public void CallLookEvent(Vector2 direction)
@@ -80,6 +82,10 @@ public class PlayerController : MonoBehaviour
     public void CallJumpEvent()
     {
         OnJumpEvent?.Invoke();
+    }
+    public void CallHitEvent()
+    {
+        OnHitEvent?.Invoke();
     }
     public void CallFallEvent()
     {

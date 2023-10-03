@@ -9,6 +9,7 @@ public class MovementController : MonoBehaviour
 
     private static readonly int isJump = Animator.StringToHash("isJump");
     private static readonly int isFall = Animator.StringToHash("isFall");
+    [SerializeField] private Transform _hitBox;
 
     private PlayerController _controller;
     private PlayerStatsHandler _stats;
@@ -52,6 +53,8 @@ public class MovementController : MonoBehaviour
         if (Input.GetButtonDown("Horizontal"))
         {
             _spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
+            _hitBox.localScale = (Input.GetAxisRaw("Horizontal") == -1)? new Vector3(-1, 1, 1): new Vector3(1, 1, 1);
+
         }
         ApplyJump(jumpingPower);
         
@@ -91,9 +94,9 @@ public class MovementController : MonoBehaviour
 
     private void ApplyJump(float direction)
     {
-        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJump"))
+        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJump") && !anim.GetBool("isFall"))
         {
-            Debug.Log("무브먼트");
+            //Debug.Log("무브먼트");
 
             _rigidbody.AddForce(Vector2.up * direction, ForceMode2D.Impulse);
             anim.SetBool(isJump, _rigidbody.velocity.y > 0.1f);
@@ -102,7 +105,7 @@ public class MovementController : MonoBehaviour
     
     private void ApplyFall()
     {
-        Debug.Log("Fall : " + _rigidbody.velocity.y);
+        //Debug.Log("Fall : " + _rigidbody.velocity.y);
         
         anim.SetBool(isFall, _rigidbody.velocity.y < 0f);
         

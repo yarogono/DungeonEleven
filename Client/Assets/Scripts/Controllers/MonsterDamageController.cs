@@ -7,12 +7,14 @@ public class MonsterDamageController : MonoBehaviour
     [SerializeField] public float maxHP;
     [SerializeField] private float _atk;
     private HealthSystem _playerHealthSystem;
+    private PlayerController _playerController;
     private MonsterController _monsterController;
     public float currentHP;
 
     private void Awake()
     {
         _playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _monsterController = GetComponent<MonsterController>();
     }
 
@@ -35,6 +37,7 @@ public class MonsterDamageController : MonoBehaviour
                 _playerHealthSystem.ChangeHealth(-_atk * 2);
                 Debug.Log(_playerHealthSystem.CurrentHealth);
             }
+            _playerController.CallHitEvent();
         }
     }
 

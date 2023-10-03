@@ -47,7 +47,7 @@ public class PlayerInputController : PlayerController
 
     public void OnJump(InputValue value)
     {
-        Debug.Log("점프키 입력받음 : " + value);
+        //Debug.Log("점프키 입력받음 : " + value);
         IsJump = value.isPressed;
         CallJumpEvent();
     }
