@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerStatsHandler : MonoBehaviour
 {
 
-    [SerializeField] private PlayerStats baseStats;
-    public PlayerStats CurrentStates { get; private set; }
-    public List<PlayerStats> statsModifiers = new List<PlayerStats>();
+    [SerializeField] private PlayerInfo baseStats;
+    public PlayerInfo CurrentStates { get; private set; }
+    public List<PlayerInfo> statsModifiers = new List<PlayerInfo>();
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class PlayerStatsHandler : MonoBehaviour
             attackSO = Instantiate(baseStats.attackSO);
         }
 
-        CurrentStates = new PlayerStats { attackSO = attackSO };
+        CurrentStates = new PlayerInfo { attackSO = attackSO };
         // TODO
         CurrentStates.maxHealth = baseStats.maxHealth;
         CurrentStates.speed = baseStats.speed;
