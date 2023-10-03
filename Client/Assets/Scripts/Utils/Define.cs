@@ -6,4 +6,13 @@ public class Define
         Effect,
         MaxCount
     }
+
+    public enum ItemType
+    {
+        Weapon,
+        Armor,
+        Accessories,
+        Potion,
+        MaxCount,
+    }
 }
