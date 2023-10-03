@@ -7,7 +7,7 @@ public class NetworkManager : CustomSingleton<NetworkManager>
 {
     ServerSession _session = new ServerSession();
 
-    void Start()
+    void Awake()
     {
         Init();
     }

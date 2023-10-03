@@ -1,4 +1,5 @@
 ﻿using Server.Session;
+using Server.Utils;
 using ServerCore;
 
 namespace Server
@@ -41,5 +42,25 @@ namespace Server
 		{
 			_sessions.Remove(session);
 		}
-	}
+
+        internal void PlayerLogin(C_PlayerLogin playerInfoPacket)
+        {
+			if (playerInfoPacket == null)
+				return;
+
+			string ip = playerInfoPacket.ip;
+
+            S_PlayerInfo sPlayerInfo = FileIO.LoadJsonFile<S_PlayerInfo>(ip);
+
+			if (sPlayerInfo == null)
+			{
+                S_PlayerInfo playerInfo = new S_PlayerInfo() { health = 100, attack = 1, def = 1, evasion = 1f, speed = 1f, gold = 0};
+				FileIO.SaveJsonFile<S_PlayerInfo>(playerInfo, ip);
+			}
+			else
+			{
+				Broadcast(sPlayerInfo.Write());
+            }
+        }
+    }
 }

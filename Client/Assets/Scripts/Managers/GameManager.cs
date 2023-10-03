@@ -1,14 +1,31 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Net;
 
 public class GameManager : CustomSingleton<GameManager>
 {
     [SerializeField] 
     public TMP_Text _dungeonTimeText;
 
+    public static GameObject Player;
+    public static PlayerInfo PlayerInfo;
+
     private float _dungeonTime;
     private bool _isTimerOn = false;
 
+    private void Start()
+    {
+        string externalip = new WebClient().DownloadString("http://ipinfo.io/ip").Trim();
+        C_PlayerLogin playerLoginPacket = new C_PlayerLogin() { ip = externalip };
+        NetworkManager.Instance.Send(playerLoginPacket.Write());
+        Player = GameObject.FindWithTag("Player");
+        if (Player != null)
+        {
+            PlayerStatsHandler playerStat = Player.GetComponent<PlayerStatsHandler>();
+            PlayerInfo = playerStat.CurrentStates;
+        }
+    }
 
     private void Update()
     {

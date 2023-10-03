@@ -19,8 +19,10 @@ class PacketManager
 		
 	public void Register()
 	{
-		_makeFunc.Add((ushort)PacketID.C_Chat, MakePacket<C_Chat>);
-		_handler.Add((ushort)PacketID.C_Chat, PacketHandler.C_ChatHandler);
+		_makeFunc.Add((ushort)PacketID.C_PlayerLogin, MakePacket<C_PlayerLogin>);
+		_handler.Add((ushort)PacketID.C_PlayerLogin, PacketHandler.C_PlayerLoginHandler);
+		_makeFunc.Add((ushort)PacketID.C_SavePlayer, MakePacket<C_SavePlayer>);
+		_handler.Add((ushort)PacketID.C_SavePlayer, PacketHandler.C_SavePlayerHandler);
 
 	}
 
@@ -37,8 +39,10 @@ class PacketManager
 		if (_makeFunc.TryGetValue(id, out func))
 		{
 			IPacket packet = func.Invoke(session, buffer);
-
-			HandlePacket(session, packet);
+			if (onRecvCallback != null)
+				onRecvCallback.Invoke(session, packet);
+			else
+				HandlePacket(session, packet);
 		}
 	}
 
