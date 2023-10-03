@@ -14,7 +14,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject _startMap;
     [SerializeField] private GameObject _bossMap;
     [SerializeField] private GameObject _mapTransitionImage;
-    private TestPlayerMovement _playerController;
+    private PlayerController _playerController;
     private GameObject _currentMap = null;
     private MapTransition _mapTransition;
     private int _mapIndex = 0;
@@ -29,7 +29,7 @@ public class MapManager : MonoBehaviour
     {
         _startMap.SetActive(true);
         _player.transform.localPosition = Vector3.zero;
-        _playerController = _player.GetComponent<TestPlayerMovement>();
+        _playerController = _player.GetComponent<PlayerController>();
         _mapTransition = _mapTransitionImage.GetComponent<MapTransition>();
         _currentMap = _startMap;
         _maps = _maps.OrderBy(x => UnityEngine.Random.Range(-6, 6)).ToArray();

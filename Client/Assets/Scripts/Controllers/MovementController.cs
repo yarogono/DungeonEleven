@@ -10,6 +10,7 @@ public class MovementController : MonoBehaviour
     private static readonly int isJump = Animator.StringToHash("isJump");
     private static readonly int isFall = Animator.StringToHash("isFall");
     [SerializeField] private Transform _hitBox;
+    [SerializeField] private GameObject _footCollider;
 
     private PlayerController _controller;
     private PlayerStatsHandler _stats;
@@ -78,11 +79,12 @@ public class MovementController : MonoBehaviour
             anim.SetBool(isJump, false);
             if (rayHit.collider != null)
             {
-                if(rayHit.distance > 0.5f)
+                if(rayHit.distance < 0.9f)
                 {
                     
                     anim.SetBool("isFall", false);
                 }
+                Debug.Log(rayHit.distance);
             }
         }
     }
@@ -100,6 +102,8 @@ public class MovementController : MonoBehaviour
 
             _rigidbody.AddForce(Vector2.up * direction, ForceMode2D.Impulse);
             anim.SetBool(isJump, _rigidbody.velocity.y > 0.1f);
+            _footCollider.SetActive(false);
+            Invoke("ActivateFoot", 0.5f);
         }
     }
     
@@ -166,6 +170,11 @@ public class MovementController : MonoBehaviour
         _spriteRenderer.color = new Color(1, 1, 1, 1);
 
 
+    }
+
+    private void ActivateFoot()
+    {
+        _footCollider.SetActive(true);
     }
 
 
