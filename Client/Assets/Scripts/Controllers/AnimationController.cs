@@ -24,6 +24,7 @@ public class AnimationController : Animations
     {
         controller.OnAttackEvent += Attacking;
         controller.OnMoveEvent += Move;
+        controller.OnHitEvent += Hit;
         _healthSystem.OnDeath += Dead;
         //if (_healthSystem != null)
         //{
@@ -57,7 +58,7 @@ public class AnimationController : Animations
 
     private void Dead()
     {
-        animator.SetBool(isDead, true);
+        animator.SetTrigger(isDead);
     }
 
 
