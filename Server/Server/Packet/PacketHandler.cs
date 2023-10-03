@@ -4,9 +4,9 @@ using ServerCore;
 
 class PacketHandler
 {
-    public static void C_ChatHandler(PacketSession session, IPacket packet)
+    public static void C_PlayerLoginHandler(PacketSession session, IPacket packet)
     {
-        C_Chat chatPacket = packet as C_Chat;
+        C_PlayerLogin playerLoginPacket = packet as C_PlayerLogin;
         ClientSession clientSession = session as ClientSession;
 
         if (clientSession.Room == null)
@@ -14,7 +14,21 @@ class PacketHandler
 
         GameRoom room = clientSession.Room;
         room.Push(
-            () => room.Broadcast(chatPacket.Write())
+            () => room.PlayerLogin(playerLoginPacket)
         );
+    }
+
+    public static void C_SavePlayerHandler(PacketSession session, IPacket packet)
+    {
+        C_SavePlayer playerLoginPacket = packet as C_SavePlayer;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession.Room == null)
+            return;
+
+        //GameRoom room = clientSession.Room;
+        //room.Push(
+        //    () => room.SavePlayer(playerLoginPacket)
+        //);
     }
 }

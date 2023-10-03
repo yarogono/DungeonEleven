@@ -19,8 +19,8 @@ class PacketManager
 		
 	public void Register()
 	{
-		_makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
-		_handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
+		_makeFunc.Add((ushort)PacketID.S_PlayerInfo, MakePacket<S_PlayerInfo>);
+		_handler.Add((ushort)PacketID.S_PlayerInfo, PacketHandler.S_PlayerInfoHandler);
 
 	}
 
