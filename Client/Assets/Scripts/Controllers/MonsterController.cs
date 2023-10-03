@@ -3,15 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
-public enum BehaviourType
-{
-    IDLE,
-    LEFT,
-    RIGHT,
-    MOVE,
-    ATTACK
-}
+
 
 public class MonsterController : MonoBehaviour
 {
@@ -20,7 +14,7 @@ public class MonsterController : MonoBehaviour
     public Vector3 playerPosition = Vector3.zero;
     public bool isDead = false;
     public bool isAttack = false;
-    [SerializeField] protected Animator _animator;
+    [SerializeField] public Animator animator;
     [SerializeField][Range(0.5f, 2.0f)] protected float MoveSpeed;
     [SerializeField][Range(1, 4)] protected float MoveRange;
     protected GameObject _player;
@@ -28,6 +22,7 @@ public class MonsterController : MonoBehaviour
     protected const string _isJump = "isJump";
     protected const string _isAttack = "isAttack";
     protected const string _isStun = "isStun";
+    protected const string _isDead = "Death";
     protected int _behaviourSelector = 0;
     protected BehaviourType behaviourType;
     protected bool playerDetected = false;
@@ -37,6 +32,7 @@ public class MonsterController : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         MonsterDeathEvent += ItemManager.Instance.CreateItem;
+        MonsterDeathEvent += OnMonsterDeath;
     }
 
     private void Start()
@@ -57,8 +53,8 @@ public class MonsterController : MonoBehaviour
     {
         while(!isDead)
         {
-            _animator.SetBool(_isMove, false);
-            _animator.SetBool(_isAttack, false);
+            animator.SetBool(_isMove, false);
+            animator.SetBool(_isAttack, false);
             isAttack = false;
             float moveRate = 1.0f / MoveSpeed;
             _behaviourSelector = UnityEngine.Random.Range(0, 10);
@@ -93,23 +89,23 @@ public class MonsterController : MonoBehaviour
             {
                 case BehaviourType.LEFT:
                     transform.localScale = new Vector3(-1, 1, 1);
-                    _animator.SetBool(_isMove, true);
+                    animator.SetBool(_isMove, true);
                     transform.DOMoveX(positionIndicator, moveRate);
                     break;
                 case BehaviourType.RIGHT:
                     transform.localScale = new Vector3(1, 1, 1);
-                    _animator.SetBool(_isMove, true);
+                    animator.SetBool(_isMove, true);
                     transform.DOMoveX(positionIndicator, moveRate);
                     break;
                 case BehaviourType.IDLE:
-                    _animator.SetBool(_isMove, false);
+                    animator.SetBool(_isMove, false);
                     break;
                 case BehaviourType.MOVE:
-                    _animator.SetBool(_isMove, true);
+                    animator.SetBool(_isMove, true);
                     MoveTowardsPlayer(moveRate);
                     break;
                 case BehaviourType.ATTACK:
-                    _animator.SetBool(_isAttack, true);
+                    animator.SetBool(_isAttack, true);
                     isAttack = true;
                     MoveTowardsPlayer(moveRate);
                     break;
@@ -117,6 +113,13 @@ public class MonsterController : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(moveRate);
         }
+    }
+
+    protected virtual void OnMonsterDeath(Vector3 position)
+    {
+        isDead = true;
+        animator.SetTrigger(_isDead);
+        Destroy(gameObject);
     }
 
     protected void MoveTowardsPlayer(float moveRate)

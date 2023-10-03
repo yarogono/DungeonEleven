@@ -248,7 +248,7 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0, z: 0}
   isDead: 0
   isAttack: 0
-  _animator: {fileID: 4731314642404761810}
+  animator: {fileID: 4731314642404761810}
   MoveSpeed: 0.5
   MoveRange: 4
 --- !u!114 &1498559553977751913
@@ -263,8 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208aa02f53af4cd4eb552f3b67715263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 10
+  maxHP: 0
   _atk: 5
+  currentHP: 0
 --- !u!50 &3302010423550273642
 Rigidbody2D:
   serializedVersion: 4

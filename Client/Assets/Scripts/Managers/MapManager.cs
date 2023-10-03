@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Define;
 
 public class MapManager : MonoBehaviour
 {
@@ -105,7 +106,7 @@ public class MapManager : MonoBehaviour
        
     }
 
-    public void ReadyNextMap(PortalType type)
+    public void ReadyNextMap(Define.PortalType type)
     {
         _playerController.isNearPortal = true;
         _playerController.portalType = type;

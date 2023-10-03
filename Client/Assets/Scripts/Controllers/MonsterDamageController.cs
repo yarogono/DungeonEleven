@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MonsterDamageController : MonoBehaviour
 {
-    [SerializeField] private float _maxHP;
+    [SerializeField] public float maxHP;
     [SerializeField] private float _atk;
     private HealthSystem _playerHealthSystem;
     private MonsterController _monsterController;
-    private float _currentHP;
+    public float currentHP;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class MonsterDamageController : MonoBehaviour
 
     private void Start()
     {
-        _currentHP = _maxHP;
+        currentHP = maxHP;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,6 +35,16 @@ public class MonsterDamageController : MonoBehaviour
                 _playerHealthSystem.ChangeHealth(-_atk * 2);
                 Debug.Log(_playerHealthSystem.CurrentHealth);
             }
+        }
+    }
+
+    public void AttackMonster(float damage)
+    {
+        currentHP  -= damage;
+        currentHP = (currentHP < 0)? 0 : currentHP;
+        if (currentHP <= 0f)
+        {
+            _monsterController.CallDeathEvent();
         }
     }
 }
