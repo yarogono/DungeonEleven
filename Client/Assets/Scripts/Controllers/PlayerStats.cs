@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlayerStats
+public class PlayerInfo
 {
     
     [Range(1, 100)] public int maxHealth;
