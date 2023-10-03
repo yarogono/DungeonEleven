@@ -9,22 +9,22 @@ public class AnimationController : Animations
     private static readonly int isHit = Animator.StringToHash("isHit");
     private static readonly int isJump = Animator.StringToHash("isJump");
     private static readonly int isFall = Animator.StringToHash("isFall");
+    private static readonly int isDead = Animator.StringToHash("isDead");
     
-    private Rigidbody2D _rigidbody;
 
+
+    private HealthSystem _healthSystem;
 
     protected override void Awake()
     {
         base.Awake();
-        _rigidbody = GetComponent<Rigidbody2D>(); 
+        _healthSystem = GetComponent<HealthSystem>();
     }
     void Start()
     {
         controller.OnAttackEvent += Attacking;
         controller.OnMoveEvent += Move;
-        controller.OnJumpEvent += Jump;
-        controller.OnFallEvent += Fall;
-
+        _healthSystem.OnDeath += Dead;
         //if (_healthSystem != null)
         //{
         //    _healthSystem.OnDamage += Hit;
@@ -38,16 +38,7 @@ public class AnimationController : Animations
         animator.SetBool(isWalking, obj.magnitude > .5f);
     }
 
-    private void Jump()
-    {
-        animator.SetBool(isJump, _rigidbody.velocity.y > 0.01f); ;
-    }
 
-     private void Fall()
-    {
-        
-        animator.SetBool(isFall,_rigidbody.velocity.y<0) ;
-    }
 
     private void Attacking(AttackSO obj)
     {
@@ -62,6 +53,11 @@ public class AnimationController : Animations
     private void InvincibilityEnd()
     {
         animator.SetBool(isHit, false);
+    }
+
+    private void Dead()
+    {
+        animator.SetBool(isDead, true);
     }
 
 

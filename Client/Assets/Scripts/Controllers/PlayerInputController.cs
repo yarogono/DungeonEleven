@@ -9,7 +9,7 @@ public class PlayerInputController : PlayerController
 {
     private Camera _camera;
     [SerializeField] private SpriteRenderer characterRenderer;
-    Rigidbody2D rigid;
+
 
 
 
@@ -17,7 +17,7 @@ public class PlayerInputController : PlayerController
     {
         base.Awake(); 
         _camera = Camera.main;
-        rigid = GetComponent<Rigidbody2D>();
+
     }
 
     public void OnMove(InputValue value)
@@ -49,6 +49,7 @@ public class PlayerInputController : PlayerController
     {
         Debug.Log("점프키 입력받음 : " + value);
         IsJump = value.isPressed;
+        CallJumpEvent();
     }
 
 }

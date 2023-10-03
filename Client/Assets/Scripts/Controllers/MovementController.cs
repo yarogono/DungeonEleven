@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+
+    private static readonly int isJump = Animator.StringToHash("isJump");
+    private static readonly int isFall = Animator.StringToHash("isFall");
+
     private PlayerController _controller;
     private PlayerStatsHandler _stats;
 
@@ -50,6 +54,7 @@ public class MovementController : MonoBehaviour
             _spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
         }
         ApplyJump(jumpingPower);
+        
     }
 
 
@@ -61,13 +66,18 @@ public class MovementController : MonoBehaviour
             knockbackDuration -= Time.fixedDeltaTime;
         }*/
         Debug.DrawRay(_rigidbody.position, Vector2.down, new Color(0, 1, 0));
+        
         RaycastHit2D rayHit = Physics2D.Raycast(_rigidbody.position, Vector3.down, 1,LayerMask.GetMask("Map"));
+        
         if (_rigidbody.velocity.y < 0)
         {
-            if(rayHit.collider != null)
+            anim.SetBool(isFall, _rigidbody.velocity.y < 0f);
+            anim.SetBool(isJump, false);
+            if (rayHit.collider != null)
             {
                 if(rayHit.distance > 0.5f)
                 {
+                    
                     anim.SetBool("isFall", false);
                 }
             }
@@ -86,8 +96,16 @@ public class MovementController : MonoBehaviour
             Debug.Log("무브먼트");
 
             _rigidbody.AddForce(Vector2.up * direction, ForceMode2D.Impulse);
-            
+            anim.SetBool(isJump, _rigidbody.velocity.y > 0.1f);
         }
+    }
+    
+    private void ApplyFall()
+    {
+        Debug.Log("Fall : " + _rigidbody.velocity.y);
+        
+        anim.SetBool(isFall, _rigidbody.velocity.y < 0f);
+        
     }
 
     private void Move(Vector2 direction)
@@ -124,10 +142,11 @@ public class MovementController : MonoBehaviour
         //무적
         gameObject.layer = 10;
         _spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        int dirc = transform.position.x- targetPos.x > 0 ? 1 : -1;
-        
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
+
         //넉백
-        _rigidbody.AddForce(new Vector2(dirc, 1) * 7, ForceMode2D.Impulse);
+        Debug.Log(dirc);
+        _rigidbody.AddForce(new Vector2(-1, 1) * 5, ForceMode2D.Impulse);
 
 
         // animation
