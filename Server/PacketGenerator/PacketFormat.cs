@@ -45,8 +45,10 @@ class PacketManager
 		if (_makeFunc.TryGetValue(id, out func))
 		{{
 			IPacket packet = func.Invoke(session, buffer);
-
-			HandlePacket(session, packet);
+			if (onRecvCallback != null)
+				onRecvCallback.Invoke(session, packet);
+			else
+				HandlePacket(session, packet);
 		}}
 	}}
 

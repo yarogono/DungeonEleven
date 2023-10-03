@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using static Define;
 
 [Serializable]
 public class Item
 {
     public int id;
     public string name;
+    public ItemType itemType;
+    public int price;
+    public string prefab;
 }
 
 [Serializable]
