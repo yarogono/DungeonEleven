@@ -8,11 +8,17 @@ public class MonsterDamageController : MonoBehaviour
     [SerializeField] private float _atk;
     private HealthSystem _playerHealthSystem;
     private MonsterController _monsterController;
+    private float _currentHP;
 
     private void Awake()
     {
         _playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
         _monsterController = GetComponent<MonsterController>();
+    }
+
+    private void Start()
+    {
+        _currentHP = _maxHP;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

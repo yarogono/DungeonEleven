@@ -1,38 +1,11 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TestTools;
 
-public enum BehaviourType
+public class BossController : MonsterController
 {
-    IDLE,
-    LEFT,
-    RIGHT,
-    MOVE,
-    ATTACK
-}
-
-public class MonsterController : MonoBehaviour
-{
-    public event Action<Vector3> MonsterDeathEvent;
-    public event Action<Collider2D> PlayerDetectEvent;
-    public Vector3 playerPosition = Vector3.zero;
-    public bool isDead = false;
-    public bool isAttack = false;
-    [SerializeField] protected Animator _animator;
-    [SerializeField][Range(0.5f, 2.0f)] protected float MoveSpeed;
-    [SerializeField][Range(1, 4)] protected float MoveRange;
-    protected GameObject _player;
-    protected const string _isMove = "isMove";
-    protected const string _isJump = "isJump";
-    protected const string _isAttack = "isAttack";
-    protected const string _isStun = "isStun";
-    protected int _behaviourSelector = 0;
-    protected BehaviourType behaviourType;
-    protected bool playerDetected = false;
-    protected int positionIndicator = 0;
-
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -43,18 +16,9 @@ public class MonsterController : MonoBehaviour
         StartCoroutine(MonsterBehaviour());
     }
 
-    public void CallDeathEvent()
+    protected override IEnumerator MonsterBehaviour()
     {
-        MonsterDeathEvent?.Invoke(transform.position);
-    }
-
-    public void CallDetectEvent(Collider2D player)
-    {
-        PlayerDetectEvent?.Invoke(player);
-    }
-    protected virtual IEnumerator MonsterBehaviour()
-    {
-        while(!isDead)
+        while (!isDead)
         {
             _animator.SetBool(_isMove, false);
             _animator.SetBool(_isAttack, false);
@@ -108,7 +72,7 @@ public class MonsterController : MonoBehaviour
                     MoveTowardsPlayer(moveRate);
                     break;
                 case BehaviourType.ATTACK:
-                    _animator.SetBool(_isAttack, true);
+                    _animator.SetTrigger("Attack");
                     isAttack = true;
                     MoveTowardsPlayer(moveRate);
                     break;
@@ -116,29 +80,5 @@ public class MonsterController : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(moveRate);
         }
-    }
-
-    protected void MoveTowardsPlayer(float moveRate)
-    {
-        if (playerPosition.x > transform.localPosition.x)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-            transform.DOMoveX(playerPosition.x, moveRate * 1.5f);
-        }
-        else
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-            transform.DOMoveX(playerPosition.x, moveRate * 1.5f);
-        }
-    }
-
-    public void DetectPlayer()
-    {
-        playerDetected = true;
-    }
-    
-    public void AwayPlayer()
-    {
-        playerDetected = false;
     }
 }
