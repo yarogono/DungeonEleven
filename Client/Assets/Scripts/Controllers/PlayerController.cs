@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public event Action OnFallEvent;
     public event Action<Vector2> OnDashEvent;
     public event Action<AttackSO> OnAttackEvent;
+
+    public bool isNearPortal = false;
+    public PortalType portalType;
 
     private float _timeSinceLastAttack = float.MaxValue;
 
@@ -40,6 +44,12 @@ public class PlayerController : MonoBehaviour
     {
         HandleAttackDelay();
         jumpDelay();
+
+        bool isPortal = Input.GetKeyDown(KeyCode.UpArrow);
+        if (isPortal && isNearPortal)
+        {
+            MapManager.Instance.LoadNextMap(portalType);
+        }
     }
 
     private void HandleAttackDelay()
@@ -65,8 +75,6 @@ public class PlayerController : MonoBehaviour
         else if (IsJumping == false)
         { 
             IsJumping = true;
-            CallJumpEvent();
-           
         }
     }
 
@@ -99,4 +107,5 @@ public class PlayerController : MonoBehaviour
     {
         OnDashEvent?.Invoke(direction);
     }
+
 }
