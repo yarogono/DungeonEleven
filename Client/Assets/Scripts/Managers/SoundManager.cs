@@ -7,7 +7,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
-    private void Start()
+    private void Awake()
     {
         string[] soundNames = System.Enum.GetNames(typeof(Define.Sound));
         for (int i = 0; i < soundNames.Length - 1; i++)

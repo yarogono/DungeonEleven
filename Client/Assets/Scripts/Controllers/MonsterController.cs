@@ -36,6 +36,7 @@ public class MonsterController : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
+        MonsterDeathEvent += ItemManager.Instance.CreateItem;
     }
 
     private void Start()

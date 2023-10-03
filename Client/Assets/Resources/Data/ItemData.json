@@ -2,23 +2,31 @@
   "items": [
     {
       "id": 0,
-      "name": "",
+      "name": "날카로운 칼",
+      "itemType": 0,
+      "price": 700,
+      "prefab": "Weapon"
     },
     {
       "id": 1,
-      "name": "",
+      "name": "강철 갑옷",
+      "itemType": 1,
+      "price": 1000,
+      "prefab": "Armor"
     },
     {
       "id": 2,
-      "name": "",
+      "name": "아뮬렛",
+      "itemType": 2,
+      "price": 600,
+      "prefab": "Accessories"
     },
     {
       "id": 3,
-      "name": "",
-    },
-    {
-      "id": 4,
-      "name": "",
+      "name": "힐링포션",
+      "itemType": 3,
+      "price": 300,
+      "prefab": "Potion"
     }
   ]
 }
