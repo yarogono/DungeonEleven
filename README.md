@@ -4,7 +4,8 @@
 
 ## 시연 영상
 [![Video Label](http://img.youtube.com/vi/dt7GvhOIzxU/0.jpg)](https://youtu.be/dt7GvhOIzxU)
-위 사진을 클릭 시 시연 영상 링크로 이동됩니다.
+
+위 사진을 클릭 시 시연 영상 링크로 이동합니다.
 
 
 <br/>
