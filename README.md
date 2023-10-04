@@ -2,9 +2,9 @@
 
 다양한 패턴의 던전이 나오고, 아이템을 주워서 판매해 케릭터를 성장시키는 로그라이크 게임입니다.
 
-
 ## 시연 영상
-
+[![Video Label](http://img.youtube.com/vi/dt7GvhOIzxU/0.jpg)](https://youtu.be/dt7GvhOIzxU)
+위 사진을 클릭 시 시연 영상 링크로 이동됩니다.
 
 
 <br/>
