@@ -24,12 +24,7 @@ public class GameManager : CustomSingleton<GameManager>
         string externalip = new WebClient().DownloadString("http://ipinfo.io/ip").Trim();
         C_PlayerLogin playerLoginPacket = new C_PlayerLogin() { ip = externalip };
         NetworkManager.Instance.Send(playerLoginPacket.Write());
-        Player = GameObject.FindWithTag("Player");
-        if (Player != null)
-        {
-            PlayerStatsHandler playerStat = Player.GetComponent<PlayerStatsHandler>();
-            PlayerInfo = playerStat.CurrentStates;
-        }
+        FindPlayer();
         if (SceneManager.GetActiveScene().name == "DungeonScene")
             StartDungeonTimer();
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
@@ -55,6 +50,8 @@ public class GameManager : CustomSingleton<GameManager>
     }
     private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
     {
+        if (Player == null)
+            FindPlayer();
         if (newScene.name == "DungeonScene")
         {
             StartDungeonTimer();
@@ -71,11 +68,13 @@ public class GameManager : CustomSingleton<GameManager>
     {
         _isTimerOn = false;
     }
-
-    public string GetDungeonTime()
+    private void FindPlayer()
     {
-        int minute = (int)_dungeonTime / 60;
-        int second = (int)_dungeonTime % 60;
-        return $"{minute.ToString("00")}:{second.ToString("00")}";
+        Player = GameObject.FindWithTag("Player");
+        if (Player != null)
+        {
+            PlayerStatsHandler playerStat = Player.GetComponent<PlayerStatsHandler>();
+            PlayerInfo = playerStat.CurrentStates;
+        }
     }
 }
