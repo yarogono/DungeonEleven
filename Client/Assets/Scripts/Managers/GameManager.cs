@@ -13,7 +13,7 @@ public class GameManager : CustomSingleton<GameManager>
 
     private float _dungeonTime;
     private bool _isTimerOn = false;
-
+    public int Day;
     private void Start()
     {
         string externalip = new WebClient().DownloadString("http://ipinfo.io/ip").Trim();

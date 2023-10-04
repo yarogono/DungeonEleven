@@ -11,8 +11,8 @@ public class Define
     {
         Weapon,
         Armor,
-        Accessories,
-        Potion,
+        Accessory,
+        Misc,
         MaxCount,
     }
 

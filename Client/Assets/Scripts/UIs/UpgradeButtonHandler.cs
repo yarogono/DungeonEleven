@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UpgradeButtonHandler : MonoBehaviour
 {
     private Button _upgradeButton;
-    //private Player _player;
+    private PlayerInfo _player;
     private UIStore _store;
     private SlotTypes _slotType;
     private TextMeshProUGUI _upgradeGoldText;
@@ -16,7 +16,7 @@ public class UpgradeButtonHandler : MonoBehaviour
 
     private void Awake()
     {
-        //_player = GameManager.Instance.Player;
+        _player = GameManager.PlayerInfo;
         _upgradeButton = GetComponent<Button>();
         _upgradeButton.onClick.AddListener(OnClicked);
         _upgradeGoldText = GetComponentInChildren<TextMeshProUGUI>();
@@ -40,10 +40,12 @@ public class UpgradeButtonHandler : MonoBehaviour
 
     private void OnClicked()
     {
+        if (_player.gold < _cost)
+            return;
         int currentLevel = _store.GetLevel(_slotType);
         _store.SetLevel(_slotType, currentLevel + 1);
         UpdateUpgradeGold();
-        //_player.Gold -= _cost;
+        _player.gold -= _cost;
         _dayAndGold.UpdateGold();
     }
     private void UpdateUpgradeGold()
