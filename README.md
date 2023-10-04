@@ -37,7 +37,7 @@
 
 ### 패키지 구조도
 
-<img src="">
+<img src="https://github.com/yarogono/DungeonEleven/assets/70641418/3ad8f7c4-3420-4ff0-a996-c27bcf3abfed">
 
 <br/>
 <br/>
