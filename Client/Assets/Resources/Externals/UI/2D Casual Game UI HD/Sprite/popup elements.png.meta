@@ -698,7 +698,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: popup elements_28
+      name: LockIcon
       rect:
         serializedVersion: 2
         x: 6719
@@ -2095,6 +2095,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       BrownSlot: -783889144
+      LockIcon: -1095406623
       Title_Wood: 1580685621
       WoodBorder_Box: -1163406948
       WoodBorder_Horizontal: 71567005
@@ -2123,7 +2124,6 @@ TextureImporter:
       popup elements_25: -1383676209
       popup elements_26: -1124080264
       popup elements_27: -1711648910
-      popup elements_28: -1095406623
       popup elements_29: -1903240542
       popup elements_30: -2045701586
       popup elements_31: 1522670155
