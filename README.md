@@ -28,14 +28,6 @@
 ## 프로젝트 설계
 
 
-### 다이어그램
-
-<img src="">
-
-
-<br/>
-<br/>
-
 ### 패키지 구조도
 
 <img src="https://github.com/yarogono/DungeonEleven/assets/70641418/3ad8f7c4-3420-4ff0-a996-c27bcf3abfed">
