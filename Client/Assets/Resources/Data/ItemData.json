@@ -19,14 +19,14 @@
       "name": "아뮬렛",
       "itemType": 2,
       "price": 600,
-      "prefab": "Accessories"
+      "prefab": "Accessory"
     },
     {
       "id": 3,
       "name": "힐링포션",
       "itemType": 3,
       "price": 300,
-      "prefab": "Potion"
+      "prefab": "Misc"
     }
   ]
 }
