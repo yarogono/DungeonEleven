@@ -7,14 +7,8 @@ using Unity.VisualScripting;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
+using static Define;
 
-public enum ItemTypes
-{
-    Weapon,
-    Armour,
-    Accessory,
-    Misc,
-}
 public enum sortTypes
 {
     All,
@@ -39,8 +33,7 @@ public class UIStore : UIBase
     private Button _closeUpgradePanelButton;
     private UIDayAndGold _dayAndGold;
 
-    // 플레이어 정보 캐싱
-    //private Player _player;
+    private PlayerInfo _player;
 
     private static readonly float DISPOSE_PRICE_RATE = 0.2f;
     private static readonly int MAX_STORE_LEVEL = 6;
@@ -56,8 +49,7 @@ public class UIStore : UIBase
     }
     private void Start()
     {
-        // 플레이어 정보  받아옴.
-        //_player = GameManager.Instance.Player;
+        _player = GameManager.PlayerInfo;
         _dayAndGold = UIManager.Instance.GetUI(typeof(UIDayAndGold).Name) as UIDayAndGold;
         LoadPlayerInventory();
     }
@@ -66,6 +58,10 @@ public class UIStore : UIBase
         Transform inventory = transform.Find("Inventory");
 
         _inventorySlots = inventory.GetComponentInChildren<UISlots>();
+        foreach (UISlot slot in _inventorySlots.GetAllSlots())
+        {
+            slot.IsLocked = false;
+        }
         _displayItemButton = inventory.Find("DisplayItemButton").GetComponent<Button>();
         _disposeAsJunkButton = inventory.Find("DisposeAsJunkButton").GetComponent<Button>();
 
@@ -153,10 +149,10 @@ public class UIStore : UIBase
                 {
                     for (int j = i + 1; j < slots.Length; j++)
                     {
-                        //if (slots[j - 1].Item.price > slots[j].Item.price)
-                        //{
-                        //    slots[j - 1].SwapSlot(slots[j]);
-                        //}
+                        if (slots[j - 1].Item.price > slots[j].Item.price)
+                        {
+                            slots[j - 1].SwapSlot(slots[j]);
+                        }
                     }
                 }
                 break;
@@ -181,22 +177,21 @@ public class UIStore : UIBase
             if (slot.IsEmpty())
                 continue;
 
-            // Item에 ItemType관련 정보 필요
 
-            //ItemTypes itemType = slot.Item.ItemType;
-            //SlotTypes category = itemType switch
-            //{
-            //    ItemTypes.Weapon => SlotTypes.Weapon,
-            //    ItemTypes.Armour => SlotTypes.Armour,
-            //    ItemTypes.Accessory => SlotTypes.Accessory,
-            //    ItemTypes.Misc => SlotTypes.Misc,
-            //    _ => SlotTypes.All
-            //};
-            //UISlot emptySlot = _storeSlots[category].GetEmptySlot();
-            //if (emptySlot == null)
-            //    continue;
-            //emptySlot.SwapSlot(slot);
-            
+            ItemType itemType = slot.Item.itemType;
+            SlotTypes category = itemType switch
+            {
+                ItemType.Weapon => SlotTypes.Weapon,
+                ItemType.Armor => SlotTypes.Armour,
+                ItemType.Accessory => SlotTypes.Accessory,
+                ItemType.Misc => SlotTypes.Misc,
+                _ => SlotTypes.All
+            };
+            UISlot emptySlot = _storeSlots[category].GetEmptySlot();
+            if (emptySlot == null)
+                continue;
+            emptySlot.SwapSlot(slot);
+
         }
     }
 
@@ -206,13 +201,10 @@ public class UIStore : UIBase
         {
             if (slot.IsEmpty())
                 continue;
-            // Item에 Price정보 필요, Player정보 필요
 
-            //int price = slot.Item.price;
-            //_player.gold += price * DISPOSE_PRICE_RATE;
-
-            // 플레이어에게서 아이템 제거
-            //_player.Inventory.Remove(slot.Item);
+            int price = slot.Item.price;
+            _player.gold += (int)(price * DISPOSE_PRICE_RATE);
+            _player.inventory.Remove(slot.Item);
             slot.Item = null;
         }
         _dayAndGold.UpdateGold();
@@ -234,14 +226,14 @@ public class UIStore : UIBase
             {
                 if (slot.IsEmpty())
                     continue;
-                //income += slot.Item.price;
-                //_player.Inventory.Remove(slot.Item);
+                income += slot.Item.price;
+                _player.inventory.Remove(slot.Item);
                 slot.Item = null;
             }
         }
         _dayAndGold.UpdateGold();
 
-        //_player.gold += income;
+        _player.gold += income;
 
         SaveStoreLevel();
 
@@ -302,19 +294,10 @@ public class UIStore : UIBase
     }
     private void LoadPlayerInventory()
     {
-        // 플레이어 인벤토리 레벨만큼 슬롯 해제
-        UISlot[] slots = _inventorySlots.GetAllSlots();
-        //for (int i = 0; i < _player.InventoryLevel; i++)
-        //{
-        //    slots[i].IsLocked = false;
-        //}
-
-        // 인벤토리에 든 아이템 가져옴
-        
-        //for (int i = 0; i < _player.Inventory.Count; i++)
-        //{
-        //    _inventorySlots.GetSlotByIndex(i).Item = _player.Inventory[i];
-        //}
+        for (int i = 0; i < _player.inventory.Count; i++)
+        {
+            _inventorySlots.GetSlotByIndex(i).Item = _player.inventory[i];
+        }
     }
     public override void CloseUI()
     {

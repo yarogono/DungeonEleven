@@ -8,7 +8,7 @@ public class ItemManager : CustomSingleton<ItemManager>
     private Queue<Item> _itemQueue = new Queue<Item>();
 
     private const int MIN_ITEM_COUNT = 0;
-    private const int MAX_ITEM_COUNT = (int)ItemType.MaxCount;
+    private const int MAX_ITEM_COUNT = (int)Define.ItemType.MaxCount;
 
     public void CreateItem(Vector3 monsterPos)
     {

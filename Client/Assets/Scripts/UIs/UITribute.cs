@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public enum TributeTypes
 {
@@ -21,7 +22,7 @@ public class UITribute : UIBase
     private Dictionary<TributeTypes, TextMeshProUGUI> _statusTexts = new Dictionary<TributeTypes, TextMeshProUGUI>();
     private Dictionary<TributeTypes, int> _tributeLevels = new Dictionary<TributeTypes, int>();
     private Button _enterDungeonButton;
-    //private Player _player;
+    private PlayerInfo _player;
 
     private static readonly int MAX_TRIBUTE_LEVEL = 10;
 
@@ -32,8 +33,7 @@ public class UITribute : UIBase
     }
     private void Start()
     {
-        // 
-        //GameManager.Instance.Player = _player;
+        _player = GameManager.PlayerInfo;
         SetStatusTexts();
     }
     private void Initialize()
@@ -85,8 +85,24 @@ public class UITribute : UIBase
 
         _tributeLevels[type] = level;
 
-        // 플레이어에게 스테이터스 반영.
-        //_player.stat.Attack = level * level * 5;
+        switch (type)
+        {
+            case TributeTypes.Attack:
+                _player.attack = level * 5;
+                break;
+            case TributeTypes.Defence:
+                _player.def = level * 5;
+                break;
+            case TributeTypes.Dodge:
+                _player.evasion = level * 0.05f;
+                break;
+            case TributeTypes.Speed:
+                _player.speed = level * 2f;
+                break;
+            case TributeTypes.Health:
+                _player.maxHealth = level * 10;
+                break;
+        }
 
         SetStatusTexts();
     }
@@ -96,26 +112,25 @@ public class UITribute : UIBase
     }
     private void SetStatusTexts()
     {
-        // 플레이어 스탯 표시
         foreach (TributeTypes type in _statusTexts.Keys)
         {
             switch (type)
             {
-                //case TributeTypes.Attack:
-                //    _statusTexts[type].text = _player.stat.Attack;
-                //    break;
-                //case TributeTypes.Defence:
-                //    _statusTexts[type].text = _player.stat.Defence;
-                //    break;
-                //case TributeTypes.Dodge:
-                //    _statusTexts[type].text = _player.stat.Dodge;
-                //    break;
-                //case TributeTypes.Speed:
-                //    _statusTexts[type].text = _player.stat.Speed;
-                //    break;
-                //case TributeTypes.Health:
-                //    _statusTexts[type].text = _player.stat.Health;
-                //    break;
+                case TributeTypes.Attack:
+                    _statusTexts[type].text = _player.attack.ToString();
+                    break;
+                case TributeTypes.Defence:
+                    _statusTexts[type].text = _player.def.ToString();
+                    break;
+                case TributeTypes.Dodge:
+                    _statusTexts[type].text = _player.evasion.ToString();
+                    break;
+                case TributeTypes.Speed:
+                    _statusTexts[type].text = _player.speed.ToString();
+                    break;
+                case TributeTypes.Health:
+                    _statusTexts[type].text = _player.maxHealth.ToString();
+                    break;
             }
         }
     }

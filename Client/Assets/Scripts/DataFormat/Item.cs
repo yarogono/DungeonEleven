@@ -7,7 +7,7 @@ public class Item
 {
     public int id;
     public string name;
-    public ItemType itemType;
+    public Define.ItemType itemType;
     public int price;
     public string prefab;
 }

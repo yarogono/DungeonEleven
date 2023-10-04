@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TributeButton : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class TributeButton : MonoBehaviour
     private TextMeshProUGUI _tributeCostText;
     private int _cost;
     private UIDayAndGold _dayAndGold;
-    //private Player _player;
+    private PlayerInfo _player;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class TributeButton : MonoBehaviour
     {
         _dayAndGold = UIManager.Instance.GetUI(typeof(UIDayAndGold).Name) as UIDayAndGold;
         UpdateTributeGold();
-        //_player = GameManager.Instance.Player;
+        _player = GameManager.PlayerInfo;
     }
     public void SetUp(TributeTypes type, UITribute tribute)
     {
@@ -34,9 +35,11 @@ public class TributeButton : MonoBehaviour
 
     private void OnClicked()
     {
+        if (_player.gold < _cost)
+            return;
         int currentLevel = _tribute.GetLevel(_type);
         _tribute.SetLevel(_type, currentLevel + 1);
-        //_player.gold -= _cost;
+        _player.gold -= _cost;
         UpdateTributeGold();
         _dayAndGold.UpdateGold();
     }
