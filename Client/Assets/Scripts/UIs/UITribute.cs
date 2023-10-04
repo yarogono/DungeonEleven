@@ -103,6 +103,12 @@ public class UITribute : UIBase
                 _player.maxHealth = level * 10;
                 break;
         }
+        int levelSum = 0;
+        foreach (int lev in _tributeLevels.Values)
+        {
+            levelSum += lev;
+        }
+        _player.level = levelSum / (float)_tributeLevels.Count;
 
         SetStatusTexts();
     }

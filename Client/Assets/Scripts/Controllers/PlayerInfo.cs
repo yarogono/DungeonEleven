@@ -19,4 +19,5 @@ public class PlayerInfo
     public float evasion;
     public int gold;
     public List<Item> inventory;
+    public float level = 1;
 }

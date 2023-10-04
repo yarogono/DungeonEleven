@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
+    public event Action HealthChanged;
     [SerializeField] private float healthChangeDelay = .5f;
 
     private PlayerStatsHandler _statsHandler;
@@ -24,11 +25,13 @@ public class HealthSystem : MonoBehaviour
     private void Awake()
     {
         _statsHandler = GetComponent<PlayerStatsHandler>();
+
     }
 
     private void Start()
     {
         CurrentHealth = _statsHandler.CurrentStates.maxHealth;
+        HealthChanged?.Invoke();
     }
 
     private void Update()
@@ -69,6 +72,7 @@ public class HealthSystem : MonoBehaviour
             CallDeath();
         }
 
+        HealthChanged?.Invoke();
         return true;
     }
 

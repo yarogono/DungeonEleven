@@ -84,7 +84,6 @@ public class MovementController : MonoBehaviour
                     
                     anim.SetBool("isFall", false);
                 }
-                Debug.Log(rayHit.distance);
             }
         }
     }
