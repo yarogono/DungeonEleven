@@ -44,7 +44,7 @@
 
 ### 와이어 프레임(Figma)
 
-<img src="">
+<img src="https://github.com/yarogono/DungeonEleven/assets/70641418/dee80154-2dcf-49ea-8fe7-cbb13f1423df">
 
 <br/>
 
