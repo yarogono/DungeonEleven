@@ -18,7 +18,6 @@ public class UIPlayerHUD : MonoBehaviour
     private void Awake()
     {
         Initialize();
-
     }
     private void Start()
     {
@@ -26,6 +25,7 @@ public class UIPlayerHUD : MonoBehaviour
         _player = GameManager.PlayerInfo;
         _healthSystem = GameManager.Player.GetComponent<HealthSystem>();
         _healthSystem.HealthChanged += HpUpdate;
+        _healthSystem.OnDeath += OnPlayerDead;
         _gameManager.TimeChanged += TimeUpdate;
         SetStatus();
     }
@@ -60,5 +60,8 @@ public class UIPlayerHUD : MonoBehaviour
         int second = (int)(remainTime % 60);
         _timeText.text = String.Format("{0:D2} / {1:D2}", minute, second);
     }
-
+    private void OnPlayerDead()
+    {
+        UIManager.Instance.OpenUI(nameof(UIDungeonResult));
+    }
 }

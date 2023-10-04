@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UIManager : CustomSingleton<UIManager>
 {
-    public Dictionary<string, UIBase> UIDic = new Dictionary<string, UIBase>();
+    [SerializeField] public Dictionary<string, UIBase> UIDic = new Dictionary<string, UIBase>();
     public UIBase OpenUI(string name)
     {
         if (string.IsNullOrEmpty(name))

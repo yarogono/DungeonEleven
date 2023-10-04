@@ -133,4 +133,9 @@ public class MapManager : MonoBehaviour
     {
         _playerController.isNearPortal = false;
     }
+
+    public int GetMapIndex()
+    {
+        return _mapIndex;
+    }
 }
