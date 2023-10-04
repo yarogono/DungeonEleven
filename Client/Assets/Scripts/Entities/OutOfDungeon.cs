@@ -9,7 +9,8 @@ public class OutOfDungeon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _playerHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
-        _playerHealthSystem.ChangeHealth(-99999);
+        if( _playerHealthSystem != null )
+            _playerHealthSystem.ChangeHealth(-99999);
     }
 
 }

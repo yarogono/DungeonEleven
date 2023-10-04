@@ -15,6 +15,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject _bossMap;
     [SerializeField] private GameObject _mapTransitionImage;
     private PlayerController _playerController;
+    private Transform _monsters;
     private GameObject _currentMap = null;
     private MapTransition _mapTransition;
     private int _mapIndex = 0;
@@ -75,12 +76,15 @@ public class MapManager : MonoBehaviour
                     _mapTransition.LoadingMap();
                     if (_mapIndex == _maps.Length)
                         _sideMaps[_mapIndex - 1].SetActive(true);
-                    else _sideMaps[_mapIndex].SetActive(true);
+                    else
+                    {
+                        _sideMaps[_mapIndex].SetActive(true);
+                        _mapIndex++;
+                    }
                     _mapTransition.LoadedMap();
-                    _currentMap = _sideMaps[_mapIndex];
+                    _currentMap = _sideMaps[_mapIndex-1];
                     _previousPosition = _player.transform.localPosition;
                     _player.transform.localPosition = Vector3.zero;
-                    _mapIndex++;
                     break;
                 case PortalType.BOSS:
                     _currentMap?.SetActive(false);
@@ -102,6 +106,14 @@ public class MapManager : MonoBehaviour
             _currentMap = _bossMap;
             _previousPosition = _player.transform.localPosition;
             _player.transform.localPosition = Vector3.zero;
+        }
+        finally
+        {
+            _monsters = _currentMap.transform.GetChild(0);
+            for(int i = 0; i < _monsters.childCount; i++)
+            {
+                _monsters.GetChild(i).gameObject.GetComponent<MonsterController>().StartMonsterAction();
+            }
         }
        
     }
