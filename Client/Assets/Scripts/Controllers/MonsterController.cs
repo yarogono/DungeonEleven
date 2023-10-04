@@ -35,7 +35,7 @@ public class MonsterController : MonoBehaviour
         MonsterDeathEvent += OnMonsterDeath;
     }
 
-    private void Start()
+    public void StartMonsterAction()
     {
         StartCoroutine(MonsterBehaviour());
     }
