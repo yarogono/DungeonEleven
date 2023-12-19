@@ -1,38 +1,80 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using System.Net;
+using System;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : CustomSingleton<GameManager>
 {
-    static GameManager s_instance;
-    static GameManager Instance { get { Init(); return s_instance; } }
+    [SerializeField] 
 
-    #region Managers
+    public static GameObject Player;
+    public static PlayerInfo PlayerInfo;
 
-    #endregion
-
-    void Start()
+    private float _dungeonTime;
+    public float DungeonTime { get { return _dungeonTime; } }
+    public float DungeonRemainTime { get; private set; }
+    public float DungeonExploreLimitTime { get; private set; }
+    public event Action TimeChanged;
+    private bool _isTimerOn = false;
+    public int Day;
+    private void Awake()
     {
-        Init();
+        string externalip = new WebClient().DownloadString("http://ipinfo.io/ip").Trim();
+        C_PlayerLogin playerLoginPacket = new C_PlayerLogin() { ip = externalip };
+        NetworkManager.Instance.Send(playerLoginPacket.Write());
+        FindPlayer();
+        if (SceneManager.GetActiveScene().name == "DungeonScene")
+            StartDungeonTimer();
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
-    static void Init()
+    private void Update()
     {
-        if (s_instance == null)
+        if (_isTimerOn)
+            UpdateDungeonTime();
+    }
+
+    private void UpdateDungeonTime()
+    {
+        _dungeonTime += Time.deltaTime;
+        DungeonRemainTime = DungeonExploreLimitTime - _dungeonTime;
+        TimeChanged?.Invoke();
+    }
+
+    public void StartDungeonTimer()
+    {
+        DungeonExploreLimitTime = Mathf.Sqrt(PlayerInfo.speed) * 2 * 60;
+        _isTimerOn = true;
+    }
+    private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    {
+        if (Player == null)
+            FindPlayer();
+        if (newScene.name == "DungeonScene")
         {
-            GameObject gameObject = GameObject.Find("@GameManager");
-            if (gameObject == null)
-            {
-                gameObject = new GameObject { name = "@GameManager" };
-                gameObject.AddComponent<GameManager>();
-            }
-
-            DontDestroyOnLoad(gameObject);
-            s_instance = gameObject.GetComponent<GameManager>();
-
+            StartDungeonTimer();
         }
     }
 
-    public static void Clear()
+    public void StopDungeonTimer()
     {
+        _isTimerOn = false;
+        _dungeonTime = 0f;
+    }
 
+    public void PauseDungeonTimer()
+    {
+        _isTimerOn = false;
+    }
+    private void FindPlayer()
+    {
+        Player = GameObject.FindWithTag("Player");
+        if (Player != null)
+        {
+            PlayerStatsHandler playerStat = Player.GetComponent<PlayerStatsHandler>();
+            PlayerInfo = playerStat.CurrentStates;
+        }
     }
 }
